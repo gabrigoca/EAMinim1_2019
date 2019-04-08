@@ -1,17 +1,17 @@
 'use strict'
 
 /*
-Conte totes les rutes, requerin al controlador (studentCtrl...) que es on 
+Conte totes les rutes, requerin al controlador (bikeCtrl...) que es on 
 estan implementades 
  */
 const express = require('express')
 const api = express.Router()
-const apiStudents =require('./student')
-const apiSubjects =require('./subject')
+const apiBikes =require('./bike')
+const apiStations =require('./station')
 
 
-api.use('/student', apiStudents)
-api.use('/subject', apiSubjects)
+api.use('/bike', apiBikes)
+api.use('/station', apiStations)
 
 
 
