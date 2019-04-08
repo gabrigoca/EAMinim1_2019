@@ -6,20 +6,20 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
-import { FormComponent } from './components/form/form.component';
-import { SubjectdetailComponent } from './components/subjectdetail/subjectdetail.component';
+//import { FormComponent } from './components/form/form.component';
+import {StationdetailComponent} from "./components/stationdetail/stationdetail.component";
 import {DataService} from "./services/data.services";
-import { StudentdetailComponent } from './components/studentdetail/studentdetail.component';
-import { FormSubjectComponent } from './components/form-subject/form-subject.component';
+//import { StudentdetailComponent } from './components/studentdetail/studentdetail.component';
+//import { FormSubjectComponent } from './components/form-subject/form-subject.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    FormComponent,
-    SubjectdetailComponent,
-    StudentdetailComponent,
-    FormSubjectComponent,
+    //FormComponent,
+    StationdetailComponent,
+    //StudentdetailComponent,
+    //FormSubjectComponent,
   ],
   imports: [
     BrowserModule,

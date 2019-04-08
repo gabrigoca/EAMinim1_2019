@@ -14,4 +14,6 @@ apiStations.post('/addBike', stationCtrl.addBike)
 
 apiStations.get('/bikes/:stationId', stationCtrl.getStationBikes)
 
+//apiStations.get('/bikes/:stationId/:bikeId', stationCtrl.deleteStationBikes)
+
 module.exports =  apiStations

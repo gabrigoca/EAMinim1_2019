@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <!--Titol de la pestanya-->
-  <title>Informació Subject</title>
+  <title>Informació station</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -13,39 +13,28 @@
       <p></p>
       <p></p>
       <!--Titol principal-->
-      <span *ngIf="subject" class="login100-form-title">
-						Nombre de la asignatura: {{subject.name}}
+      <span *ngIf="Station" class="login100-form-title">
+						Nombre de la estacion: {{Station.name}}
 					</span>
       <p></p>
       <p></p>
       <p></p>
       <p></p>
       <!--Si la variable llista es diferent a Null, mostrem els titols de les columnes-->
-      <pre *ngIf="subject.students" class="list_titles">Nombre    Dirección</pre>
-      <pre *ngIf="subject.students==null" class="list_titles">No hay alumnos en esta asignatura</pre>
-      <ul *ngIf="subject.students" id="menu">
+      <pre *ngIf="Station.bikes" class="list_titles">Bike   Kms   Description</pre>
+      <pre *ngIf="Station.bikes==null" class="list_titles">No hay bicis en esta estacion</pre>
+      <ul *ngIf="Station.bikes" id="menu">
         <!--Per cada element de la llista fem:-->
-        <li  class="list_items" *ngFor="let student of subject.students">
+        <li  class="list_items" *ngFor="let bike of bikes">
           <!--Mostrem el nom per cada element-->
-          <pre>{{student.name}}     {{student.address}}  </pre>
-          <button type="button" (click)="botoLlista(student._id)" class="list_btn1 pull-right" id="btnEliminar">Obtener información</button>
+          <pre>{{bike.name}}  {{bike.distance}} {{bike.description}} </pre>
+          <button type="button" (click)="botoLlista(bike._id)" class="list_btn1 pull-right" id="btnEliminar">Eliminar</button>
         </li>
         <li class="no-bullet">
 
         </li>
       </ul>
       <!--Botons-->
-      <p></p>
-      <pre></pre>
-      <div class="container-login100-form-btn">
-        <div class="wrap-login100-form-btn">
-          <div class="login100-form-bgbtn"></div>
-          <button  (click)="botoAfagir()" class="login100-form-btn" type="submit">
-            Añadir Alumno a esta asignatura
-          </button>
-        </div>
-      </div>
-      <p></p>
       <p></p>
       <div class="container-login100-form-btn">
         <div class="wrap-login100-form-btn">

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <!--Titol de la pestanya-->
-  <title>Lista de Subjects</title>
+  <title>Lista de Stations</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -14,7 +14,7 @@
       <p></p>
       <!--Titol principal-->
       <span class="login100-form-title">
-						Lista de Subjects
+						Lista de Stations
 					</span>
       <p></p>
       <p></p>
@@ -22,20 +22,20 @@
       <div class="container-login100-form-btn">
         <div class="wrap-login100-form-btn">
           <div class="login100-form-bgbtn"></div>
-          <button (click)="llistaSubjects()" class="login100-form-btn" type="submit">
-            Obtener Subjects
+          <button (click)="llistaStations()" class="login100-form-btn" type="submit">
+            Obtener Stations
           </button>
         </div>
       </div>
       <p></p>
       <p></p>
       <!--Si la variable llista es diferent a Null, mostrem els titols de les columnes-->
-      <pre *ngIf="llista" class="list_titles">Nombre de la Asignatura</pre>
+      <p *ngIf="llista" class="list_titles">Station State Description</p>
       <ul *ngIf="llista" id="menu">
         <!--Per cada element de la llista fem:-->
         <li  class="list_items" *ngFor="let element of llista">
           <!--Mostrem tres camps de cada element-->
-          <pre>{{element.name}}     </pre>
+          <p>{{element.name}} {{element.state}} {{element.description}}</p>
           <!--A més afagim dos botons per realitzar accions relacionat amb els elements de la llista-->
           <button *ngIf="llista" type="button" (click)="botoLlista(element._id)" class="list_btn1 pull-right" id="btnEliminar"> Obtener información</button>
         </li>
@@ -45,11 +45,25 @@
       <div class="container-login100-form-btn">
         <div class="wrap-login100-form-btn">
           <div class="login100-form-bgbtn"></div>
-          <button (click)="afagirSubject()" class="login100-form-btn" type="submit">
-            Añadir Subject
+          <button (click)="llistaBikes()" class="login100-form-btn" type="submit">
+            Bicicleta sin asignar
           </button>
         </div>
       </div>
+      <p></p>
+      <p></p>
+      <p *ngIf="llistaUnBikes" class="list_titles">Bike kms Description</p>
+      <ul *ngIf="llistaUnBikes" id="menuBikes">
+        <!--Per cada element de la llista fem:-->
+        <li  class="list_bikes" *ngFor="let element of llistaUnBikes">
+          <!--Mostrem tres camps de cada element-->
+          <p>{{element.name}} {{element.distance}} {{element.description}}</p>
+          <!--A més afagim dos botons per realitzar accions relacionat amb els elements de la llista-->
+          <button *ngIf="llistaUnBikes" type="button" (click)="botoLlistaBikes(element._id)" class="list_btn1 pull-right" id="btnAdd"> Añadir a estacion</button>
+        </li>
+        <li class="no-bullet">
+        </li>
+      </ul>
     </div>
   </div>
 

@@ -6,6 +6,7 @@ const apiBikes = express.Router()
 const bikeCtrl = require('../controllers/bike')
 
 apiBikes.get('/', bikeCtrl.getBikes)
+apiBikes.get('/un',bikeCtrl.getUnBike)
 apiBikes.get('/:bikeId', bikeCtrl.getBike)
 apiBikes.post('/', bikeCtrl.saveBike)
 apiBikes.put('/:bikeId', bikeCtrl.updateBike)

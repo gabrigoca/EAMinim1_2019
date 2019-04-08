@@ -121,12 +121,29 @@ function addPhone (req,res){
 
 */
 
+function getUnBike (req,res){
+    console.log('GET /api/bike/un')
+
+
+    Bike.find({assigned:false},(err, bike) => {
+        if(err)
+            return res.status(500).send({message: `Error searching bikes: ${err}`})
+
+        if(!bike)
+            return res.status(404).send({message: `There are no unassigned bikes`})
+
+        console.log(bike)
+        res.status(200).send(bike)
+    })
+}
+
 module.exports={
     getBike,
     getBikes,
     saveBike,
     updateBike,
     deleteBike,
+    getUnBike,
 
 
 }

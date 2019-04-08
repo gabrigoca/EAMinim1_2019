@@ -486,7 +486,7 @@ iframe {
 /*//////////////////////////////////////////////////////////////////
 [ List ]*/
 li {
-  display:inline;
+  display:block;/*inline;*/
   padding: 10px 30px;
 }
 .list_titles {

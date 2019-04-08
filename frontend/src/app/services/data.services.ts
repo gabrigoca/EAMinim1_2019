@@ -4,24 +4,24 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class DataService {
 
-  //Clase per intercambiar el SubjectId entre els components
-  //main i subjectdetail.
+  //Clase per intercambiar el StationId entre els components
+  //main i stationdetail.
 
-  private originalSubjectId = new BehaviorSubject("0");
-  clickedSubjectId = this.originalSubjectId.asObservable()
+  private originalStationId = new BehaviorSubject("0");
+  clickedStationId = this.originalStationId.asObservable()
 
 
-  private originalStudentId = new BehaviorSubject("0");
-  clickedStudentId = this.originalStudentId.asObservable()
+  private originalBikeId = new BehaviorSubject("0");
+  clickedBikeId = this.originalBikeId.asObservable()
 
   constructor() { }
 
-  changeSubjectId(id: string) {
-    this.originalSubjectId.next(id)
+  changeStationId(id: string) {
+    this.originalStationId.next(id)
   }
 
-  changeStudentId(id: string) {
-    this.originalStudentId.next(id)
+  changeBikeId(id: string) {
+    this.originalBikeId.next(id)
   }
 
 

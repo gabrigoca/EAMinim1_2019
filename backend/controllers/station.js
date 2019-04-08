@@ -24,7 +24,7 @@ function getStations(req,res){
 
 function getStation(req,res){
     //Funcio per obtindre una asignatura en base al seu ID
-    console.log("Peticio de obtindre una asignatura")
+    console.log("Peticio de obtindre una estacio")
     let stationId = req.params.stationId
     //Al demanar només una asignatura enviem tota la llista de alumnes
     Station.findById(stationId, (err, asig)=>{
@@ -168,7 +168,7 @@ function getStationBikes (req,res){
             return res.status(404).send({message: `Station does not exist`})
 
         Bike.find({'_id': { $in: station.bikes}}, function(err, bikesList){
-            res.status(200).send({bikes: bikesList})
+            res.status(200).send(bikesList)
         })
     })
 }
