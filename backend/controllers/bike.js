@@ -137,6 +137,32 @@ function getUnBike (req,res){
     })
 }
 
+
+function addToStation(req,res){
+    Station.findById(req.params.stationId,(err,station)=>{
+        if(err)
+            return res.status(500).send({message: `Error searching station: ${err}`})
+
+        if(!station)
+            return res.status(404).send({message: `The station does not exist`})
+        Bike.findById(req.params.bikeId,(err,bike)=>{
+            if(err)
+                return res.status(500).send({message: `Error searching bikes: ${err}`})
+
+            if(!bike)
+                return res.status(404).send({message: `The bike does not exist`})
+            station.bikes.push(bike._id)
+            station.save((err,stationStored) => {
+                if(err)
+                    return res.status(500).send({message: `Error saving in the DB: ${err}`})
+
+                res.status(200).send(stationStored)
+        })
+    })
+})
+
+}
+
 module.exports={
     getBike,
     getBikes,
@@ -144,6 +170,7 @@ module.exports={
     updateBike,
     deleteBike,
     getUnBike,
+    addToStation,
 
 
 }
