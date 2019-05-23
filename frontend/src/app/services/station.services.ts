@@ -25,7 +25,11 @@ export class StationServices {
     return this.http.get(this.environment.urlStation  + "/bikes/"+stationId, {observe: 'response'})
   }
   deleteBike(BikeId,StationId){
-    return this.http.get(this.environment.urlStation  + "/bikes/"+StationId+"/"+BikeId, {observe: 'response'})
+    return this.http.delete(this.environment.urlStation  + "/bike/"+StationId+"/"+BikeId, {observe: 'response'})
+  }
+
+  addBike(BikeId,StationId){
+    return this.http.get(this.environment.urlStation  + "/addbike/"+StationId+"/"+BikeId, {observe: 'response'})
   }
 
   addStation(station) {

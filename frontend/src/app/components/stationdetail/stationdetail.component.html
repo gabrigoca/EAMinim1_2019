@@ -10,19 +10,16 @@
 <div class="limiter">
   <div class="container-login100">
     <div class="wrap-login100 p-l-20 p-r-20 p-t-20 p-b-20">
-      <p></p>
-      <p></p>
+      <br>
       <!--Titol principal-->
       <span *ngIf="Station" class="login100-form-title">
 						Nombre de la estacion: {{Station.name}}
 					</span>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
+      <br>
       <!--Si la variable llista es diferent a Null, mostrem els titols de les columnes-->
       <pre *ngIf="Station.bikes" class="list_titles">Bike   Kms   Description</pre>
       <pre *ngIf="Station.bikes==null" class="list_titles">No hay bicis en esta estacion</pre>
+
       <ul *ngIf="Station.bikes" id="menu">
         <!--Per cada element de la llista fem:-->
         <li  class="list_items" *ngFor="let bike of bikes">
@@ -30,10 +27,23 @@
           <pre>{{bike.name}}  {{bike.distance}} {{bike.description}} </pre>
           <button type="button" (click)="botoLlista(bike._id)" class="list_btn1 pull-right" id="btnEliminar">Eliminar</button>
         </li>
-        <li class="no-bullet">
+      </ul>
 
+      <span *ngIf="Station" class="login100-form-title">
+						Bicis sin asignar:
+					</span>
+      <p *ngIf="llistaUnBikes" class="list_titles">Bike kms Description</p>
+      <ul *ngIf="llistaUnBikes" id="menuBikes">
+        <!--Per cada element de la llista fem:-->
+        <li  class="list_bikes" *ngFor="let element of llistaUnBikes">
+          <!--Mostrem tres camps de cada element-->
+          <p>{{element.name}} {{element.distance}} {{element.description}}</p>
+          <!--A més afagim dos botons per realitzar accions relacionat amb els elements de la llista-->
+          <button *ngIf="llistaUnBikes" type="button" (click)="botoLlistaUnBikes(element._id)" class="list_btn1 pull-right" id="btnAdd"> Añadir a estacion</button>
         </li>
       </ul>
+
+
       <!--Botons-->
       <p></p>
       <div class="container-login100-form-btn">

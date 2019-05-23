@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StationServices } from "../../services/Station.services";
 import {Router} from "@angular/router";
 import {DataService} from "../../services/data.services";
+import { BikeServices } from "../../services/bike.services";
 
 @Component({
   selector: 'app-Stationdetail',
@@ -15,10 +16,11 @@ export class StationdetailComponent implements OnInit {
 //Com a variables globals, posem:
   Station: Object;
   bikes: Object;
+  llistaUnBikes: Object;
   StationId: string;
 
   //Com a constructor, pasem els Services (on estaran implementades les funcions), el servei de Dades (per passar dades entre components) i el Router
-  constructor(private StationService: StationServices,private dataService:DataService, private router: Router) { }
+  constructor(private StationService: StationServices,private bikeService: BikeServices, private dataService:DataService, private router: Router) { }
 
   ngOnInit() {
     this.dataService.clickedStationId.subscribe(StationId => this.StationId = StationId)
@@ -28,6 +30,13 @@ export class StationdetailComponent implements OnInit {
       this.router.navigateByUrl("/");
     }
     this.obtainStation()
+    this.llistaBikes()
+    this.obtainBikes()
+  }
+
+  refresh(){
+    this.obtainStation()
+    this.llistaBikes()
     this.obtainBikes()
   }
 
@@ -74,12 +83,66 @@ export class StationdetailComponent implements OnInit {
   }
 
   botoLlista(idBike) {
-    this.dataService.changeBikeId(idBike)
-    this.StationService.deleteBike(idBike,this.StationId)
-    this.router.navigateByUrl("/api/bike");
+    //this.dataService.changeBikeId(idBike)
+    console.log(idBike+" , "+this.StationId)
+    this.StationService.deleteBike(idBike,this.StationId).subscribe(response => {
+        console.log("Resposta del BackEnd" + response.body);
+        //Podem filtrar per tots els codis 2XX
+        if (response.status == 200) {
+          this.refresh();
+        } else {
+          console.log("Error");
+        }
+      },
+      err => {
+        console.log("Error del BackEnd" + err);
+      });
+
   }
 
-  botoAfagir() {
-    this.router.navigateByUrl("/api/form");
+  botoLlistaUnBikes(idBike) {
+    this.dataService.changeBikeId(idBike)
+    console.log(idBike+" , "+this.StationId)
+    this.StationService.addBike(idBike,this.StationId).subscribe(response => {
+        console.log("Resposta del BackEnd" + response.body);
+        if (response.status == 200) {
+          this.refresh();
+        } else {
+          //Error desconegut
+          console.log("Error");
+        }
+      },
+      err => {
+        console.log("Error del BackEnd" + err);
+        //Podem filtrar per tots els altres codis
+      });
   }
+
+  llistaBikes() {
+    console.log("Operació de demanar bicicletes realitzada al BackEnd:");
+    this.bikeService.obtainUnassinedBikes()
+      .subscribe(response => {
+          console.log("Resposta del BackEnd"+response.body);
+          //Podem filtrar per tots els codis 2XX
+          if(response.status==200){
+            this.llistaUnBikes=response.body;
+          }
+          else {
+            //Error desconegut
+            console.log("Error");
+          }
+        },
+        err => {
+          console.log("Error del BackEnd"+err);
+          //Podem filtrar per tots els altres codis
+          if(err.status==404){
+            console.log("No hi han assignatures")
+          }
+          else {
+            //Error desconegut
+            console.log("Error");
+          }
+        });
+  }
+
 }

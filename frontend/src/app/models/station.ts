@@ -1,9 +1,11 @@
-import {Student} from "./student";
+import {Bike} from "./bike";
 
-export class Subject {
+export class Station {
   _id: string;
   name: string;
-  students:[string]
+  state: boolean;
+  description: string;
+  bikes: [string];
 
   constructor(name: string/*, students: [string]*/) {
     this.name = name;

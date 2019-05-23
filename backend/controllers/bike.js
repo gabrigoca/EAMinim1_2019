@@ -151,13 +151,24 @@ function addToStation(req,res){
 
             if(!bike)
                 return res.status(404).send({message: `The bike does not exist`})
-            station.bikes.push(bike._id)
-            station.save((err,stationStored) => {
-                if(err)
-                    return res.status(500).send({message: `Error saving in the DB: ${err}`})
-
-                res.status(200).send(stationStored)
-        })
+            if (bike.assigned==false) {
+                station.bikes.push(bike._id);
+                station.state=true;
+                station.save((err, stationStored) => {
+                    if (err)
+                        return res.status(500).send({message: `Error saving in the DB: ${err}`})
+                    bike.assigned=true;
+                    bike.save((err, bikeStored) =>{
+                        if (err) {
+                            return res.status(500).send({message: `Error saving in the DB: ${err}`})
+                        }
+                        res.status(200).send(stationStored)
+                    })
+                })
+            }
+            else{
+                res.status(500).send({message: "Bike already assigned"})
+            }
     })
 })
 

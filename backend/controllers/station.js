@@ -111,48 +111,69 @@ function saveStation(req,res){
 }
 
 
-function addBike (req,res){
-    console.log('POST /api/station/addBike')
+function addBike(req,res) {
+    Station.findById(req.params.stationId, (err, station) => {
+        if (err)
+            return res.status(500).send({message: `Error searching station: ${err}`})
 
-    let bikeId = req.body.bikeId
-    let stationId = req.body.stationId
+        if (!station)
+            return res.status(404).send({message: `The station does not exist`})
+        Bike.findById(req.params.bikeId, (err, bike) => {
+            if (err)
+                return res.status(500).send({message: `Error searching bikes: ${err}`})
 
-    Station.findById(stationId,(err, station) => {
-        if(err)
-            return res.status(500).send({message: `Error searching the station: ${err}`})
-
-        if(!station)
-            return res.status(404).send({message: `Station does not exist`})
-
-        Bike.findById(bikeId,(err,bike)=>{
-            if(err)
-                return res.status(500).send({message: `Error searching the bike: ${err}`})
-
-            if(!bike)
-                return res.status(404).send({message: `Bike does not exist`})
-            bike.assigned=true
-            Bike.findByIdAndUpdate(bike._id,bike,(err, bikeUpdated) => {
-                if(err)
-                    return res.status(500).send({message: `Error updating the bike: ${err}`})
-
-                if(!bikeUpdated)
-                    return res.status(404).send({message: `Bike does not exist`})
-
-                station.bikes.push(bikeId)
-                station.state=true
-                station.save((err,stationStored) => {
-                    if(err)
+            if (!bike)
+                return res.status(404).send({message: `The bike does not exist`})
+            if (bike.assigned == false) {
+                station.bikes.push(bike._id);
+                station.state = true;
+                station.save((err, stationStored) => {
+                    if (err)
                         return res.status(500).send({message: `Error saving in the DB: ${err}`})
+                    bike.assigned = true;
+                    bike.save((err, bikeStored) => {
+                        if (err) {
+                            return res.status(500).send({message: `Error saving in the DB: ${err}`})
+                        }
+                        res.status(200).send(stationStored)
+                    })
+                })
+            } else {
+                res.status(500).send({message: "Bike already assigned"})
+            }
+        })
+    })
+}
 
-                    res.status(200).send({station: stationStored})
+function removeBike(req,res){
+    Bike.findById(req.params.bikeId, (err, bike) => {
+        if (err)
+            return res.status(500).send({message: `Error searching bikes: ${err}`})
 
+        if (!bike)
+            return res.status(400).send({message: `The bike does not exist`})
+
+        Station.update({_id: req.params.stationId},{$pull:{bikes: req.params.bikeId}}, (err, doc) => {
+            if (err)
+                return res.status(500).send({message: `Error searching station: ${err}`})
+            if (!doc)
+                return res.status(404).send({message: `The station does not exist`})
+
+            bike.assigned=false;
+            Station.findById(req.params.stationId, (err, station) =>{
+                if (station.bikes.length===0) {
+                    station.state = false;
+                }
+                bike.save((err,bikeStored) => {
+                    station.save((err, stationStored) => {
+                        if (err)
+                            return res.status(500).send({message: `Error saving station: ${err}`});
+                        return res.status(200).send(stationStored)
+                    })
                 })
             })
-
         })
-
     })
-
 }
 
 function getStationBikes (req,res){
@@ -180,5 +201,6 @@ module.exports={
     updateStation,
     deleteStation,
     addBike,
-    getStationBikes
+    getStationBikes,
+    removeBike
 }
